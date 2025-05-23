@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trigonometry Visualizer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      display: block;
+      margin-top: 20px;
+    }
+    .controls {
+      margin-bottom: 10px;
+    }
+    .checkboxes {
+      margin-top: 10px;
+    }
+    .buttons {
+      margin-top: 10px;
+    }
+    .unit-circle {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Trig Function Visualizer</h1>
+  <div class="controls">
+    <label for="theta">Theta (degrees): </label>
+    <input type="range" id="theta" min="0" max="360" value="45" />
+    <span id="thetaValue">45</span>
+
+    <div class="buttons">
+      <button onclick="setTheta(45)">45°</button>
+      <button onclick="setTheta(90)">90°</button>
+      <button onclick="setTheta(180)">180°</button>
+    </div>
+
+    <div class="checkboxes">
+      <label><input type="checkbox" id="showSin" checked /> sin(θ)</label>
+      <label><input type="checkbox" id="showCos" checked /> cos(θ)</label>
+      <label><input type="checkbox" id="showTan" checked /> tan(θ)</label>
+    </div>
+  </div>
+
+  <canvas id="plot" width="800" height="400"></canvas>
+  <canvas id="circle" width="200" height="200" class="unit-circle"></canvas>
+
+  <script>
+    const canvas = document.getElementById("plot");
+    const ctx = canvas.getContext("2d");
+    const circleCanvas = document.getElementById("circle");
+    const circleCtx = circleCanvas.getContext("2d");
+
+    const thetaInput = document.getElementById("theta");
+    const thetaValue = document.getElementById("thetaValue");
+    const showSin = document.getElementById("showSin");
+    const showCos = document.getElementById("showCos");
+    const showTan = document.getElementById("showTan");
+
+    const width = canvas.width;
+    const height = canvas.height;
+    const padding = 40;
+
+    function setTheta(val) {
+      thetaInput.value = val;
+      thetaValue.textContent = val;
+      drawPlot();
+    }
+
+    function drawPlot() {
+      ctx.clearRect(0, 0, width, height);
+      drawAxes();
+      if (showSin.checked) drawFunction(Math.sin, "red");
+      if (showCos.checked) drawFunction(Math.cos, "blue");
+      if (showTan.checked) drawFunction(Math.tan, "green", true);
+      drawThetaLine();
+      drawUnitCircle();
+    }
+
+    function drawAxes() {
+      ctx.strokeStyle = "black";
+      ctx.beginPath();
+      ctx.moveTo(padding, height / 2);
+      ctx.lineTo(width - padding, height / 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(padding, 0);
+      ctx.lineTo(padding, height);
+      ctx.stroke();
+
+      for (let i = -1; i <= 1; i += 0.5) {
+        const y = height / 2 - i * 100;
+        ctx.beginPath();
+        ctx.moveTo(padding - 5, y);
+        ctx.lineTo(padding + 5, y);
+        ctx.stroke();
+        ctx.fillText(i.toFixed(1), padding - 30, y + 3);
+      }
+
+      for (let deg = 0; deg <= 360; deg += 90) {
+        const x = padding + (deg / 360) * (width - 2 * padding);
+        ctx.beginPath();
+        ctx.moveTo(x, height / 2 - 5);
+        ctx.lineTo(x, height / 2 + 5);
+        ctx.stroke();
+        ctx.fillText(deg + "°", x - 10, height / 2 + 20);
+      }
+    }
+
+    function drawFunction(fn, color, isTan = false) {
+      ctx.strokeStyle = color;
+      ctx.beginPath();
+      let started = false;
+      for (let deg = 0; deg <= 360; deg++) {
+        const rad = (deg * Math.PI) / 180;
+        let y = fn(rad);
+        if (isTan && Math.abs(y) > 10) {
+          started = false;
+          continue;
+        }
+        const x = padding + (deg / 360) * (width - 2 * padding);
+        y = height / 2 - y * 100;
+        if (!started) {
+          ctx.moveTo(x, y);
+          started = true;
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+      ctx.stroke();
+    }
+
+    function drawThetaLine() {
+      const theta = parseInt(thetaInput.value);
+      const x = padding + (theta / 360) * (width - 2 * padding);
+      ctx.strokeStyle = "purple";
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+
+    function drawUnitCircle() {
+      const centerX = 100;
+      const centerY = 100;
+      const radius = 80;
+      const theta = parseInt(thetaInput.value);
+      const rad = (theta * Math.PI) / 180;
+
+      circleCtx.clearRect(0, 0, 200, 200);
+
+      circleCtx.beginPath();
+      circleCtx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      circleCtx.stroke();
+
+      const x = centerX + radius * Math.cos(rad);
+      const y = centerY - radius * Math.sin(rad);
+
+      circleCtx.beginPath();
+      circleCtx.moveTo(centerX, centerY);
+      circleCtx.lineTo(x, y);
+      circleCtx.strokeStyle = "purple";
+      circleCtx.stroke();
+
+      circleCtx.beginPath();
+      circleCtx.moveTo(centerX, centerY);
+      circleCtx.lineTo(x, centerY);
+      circleCtx.strokeStyle = "blue";
+      circleCtx.stroke();
+
+      circleCtx.beginPath();
+      circleCtx.moveTo(x, centerY);
+      circleCtx.lineTo(x, y);
+      circleCtx.strokeStyle = "red";
+      circleCtx.stroke();
+
+      circleCtx.fillStyle = "black";
+      circleCtx.font = "12px sans-serif";
+      const cosVal = Math.cos(rad).toFixed(2);
+      const sinVal = Math.sin(rad).toFixed(2);
+      circleCtx.fillText(`(${cosVal}, ${sinVal})`, x + 5, y - 5);
+    }
+
+    thetaInput.addEventListener("input", () => {
+      thetaValue.textContent = thetaInput.value;
+      drawPlot();
+    });
+
+    showSin.addEventListener("change", drawPlot);
+    showCos.addEventListener("change", drawPlot);
+    showTan.addEventListener("change", drawPlot);
+
+    drawPlot();
+  </script>
+</body>
+</html>
