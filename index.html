@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trigonometry Visualizer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trig Visualizer Enhanced</title>
   <style>
     body {
       font-family: sans-serif;
@@ -17,10 +17,7 @@
     .controls {
       margin-bottom: 10px;
     }
-    .checkboxes {
-      margin-top: 10px;
-    }
-    .buttons {
+    .checkboxes, .buttons {
       margin-top: 10px;
     }
     .unit-circle {
@@ -34,7 +31,7 @@
   <h1>Trig Function Visualizer</h1>
   <div class="controls">
     <label for="theta">Theta (degrees): </label>
-    <input type="range" id="theta" min="0" max="360" value="45" />
+    <input type="range" id="theta" min="0" max="360" value="45">
     <span id="thetaValue">45</span>
 
     <div class="buttons">
@@ -44,9 +41,9 @@
     </div>
 
     <div class="checkboxes">
-      <label><input type="checkbox" id="showSin" checked /> sin(θ)</label>
-      <label><input type="checkbox" id="showCos" checked /> cos(θ)</label>
-      <label><input type="checkbox" id="showTan" checked /> tan(θ)</label>
+      <label><input type="checkbox" id="showSin" checked> sin(θ)</label>
+      <label><input type="checkbox" id="showCos" checked> cos(θ)</label>
+      <label><input type="checkbox" id="showTan" checked> tan(θ)</label>
     </div>
   </div>
 
@@ -141,12 +138,35 @@
 
     function drawThetaLine() {
       const theta = parseInt(thetaInput.value);
+      const rad = (theta * Math.PI) / 180;
       const x = padding + (theta / 360) * (width - 2 * padding);
+
       ctx.strokeStyle = "purple";
       ctx.beginPath();
       ctx.moveTo(x, 0);
       ctx.lineTo(x, height);
       ctx.stroke();
+
+      ctx.fillStyle = "black";
+      ctx.font = "12px sans-serif";
+
+      if (showSin.checked) {
+        const ySin = height / 2 - Math.sin(rad) * 100;
+        ctx.fillText("sin: " + Math.sin(rad).toFixed(2), x + 5, ySin);
+      }
+
+      if (showCos.checked) {
+        const yCos = height / 2 - Math.cos(rad) * 100;
+        ctx.fillText("cos: " + Math.cos(rad).toFixed(2), x + 5, yCos);
+      }
+
+      if (showTan.checked) {
+        const tanVal = Math.tan(rad);
+        if (Math.abs(tanVal) < 10) {
+          const yTan = height / 2 - tanVal * 100;
+          ctx.fillText("tan: " + tanVal.toFixed(2), x + 5, yTan);
+        }
+      }
     }
 
     function drawUnitCircle() {
