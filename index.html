@@ -18,7 +18,7 @@
     }
 
     .container {
-      max-width: 1400px;
+      max-width: 1150px;
       margin: 0 auto;
       background: white;
       border-radius: 16px;
@@ -35,7 +35,7 @@
 
     .main-layout {
       display: grid;
-      grid-template-columns: 1fr 400px;
+      grid-template-columns: 1fr 350px;
       gap: 30px;
       margin-bottom: 20px;
     }
@@ -344,7 +344,7 @@
 
     <div class="main-layout">
       <div class="canvas-container">
-        <canvas id="plot" width="900" height="450"></canvas>
+        <canvas id="plot" width="700" height="350"></canvas>
         <div class="legend">
           <div class="legend-item" id="legendSin" style="display: none;">
             <div class="legend-color sin"></div>
@@ -361,7 +361,7 @@
         </div>
 
         <div class="circle-section">
-          <canvas id="circle" width="400" height="400"></canvas>
+          <canvas id="circle" width="350" height="350"></canvas>
         </div>
       </div>
 
@@ -530,7 +530,7 @@
       // Y-axis labels
       for (let i = -1; i <= 1; i += 0.5) {
         if (i === 0) continue;
-        const y = height / 2 - i * 150;
+        const y = height / 2 - i * 100;
         ctx.beginPath();
         ctx.moveTo(padding - 5, y);
         ctx.lineTo(padding + 5, y);
@@ -581,7 +581,7 @@
         }
 
         const x = padding + (deg / 360) * (width - 2 * padding);
-        y = height / 2 - y * 150;
+        y = height / 2 - y * 100;
 
         if (!started) {
           ctx.moveTo(x, y);
@@ -613,7 +613,7 @@
       const x = padding + (theta / 360) * (width - 2 * padding);
 
       if (showSin.checked) {
-        const ySin = height / 2 - Math.sin(rad) * 150;
+        const ySin = height / 2 - Math.sin(rad) * 100;
         ctx.fillStyle = "#e53e3e";
         ctx.beginPath();
         ctx.arc(x, ySin, 6, 0, 2 * Math.PI);
@@ -621,7 +621,7 @@
       }
 
       if (showCos.checked) {
-        const yCos = height / 2 - Math.cos(rad) * 150;
+        const yCos = height / 2 - Math.cos(rad) * 100;
         ctx.fillStyle = "#3182ce";
         ctx.beginPath();
         ctx.arc(x, yCos, 6, 0, 2 * Math.PI);
@@ -631,7 +631,7 @@
       if (showTan.checked) {
         const tanVal = Math.tan(rad);
         if (Math.abs(tanVal) < 3) {
-          const yTan = height / 2 - tanVal * 150;
+          const yTan = height / 2 - tanVal * 100;
           ctx.fillStyle = "#38a169";
           ctx.beginPath();
           ctx.arc(x, yTan, 6, 0, 2 * Math.PI);
@@ -641,22 +641,22 @@
     }
 
     function drawUnitCircle() {
-      const centerX = 200;
-      const centerY = 200;
-      const radius = 150;
+      const centerX = 175;
+      const centerY = 175;
+      const radius = 130;
       const theta = parseInt(thetaInput.value);
       const rad = (theta * Math.PI) / 180;
 
-      circleCtx.clearRect(0, 0, 400, 400);
+      circleCtx.clearRect(0, 0, 350, 350);
 
       // Draw axes
       circleCtx.strokeStyle = "#cbd5e0";
       circleCtx.lineWidth = 1.5;
       circleCtx.beginPath();
       circleCtx.moveTo(0, centerY);
-      circleCtx.lineTo(400, centerY);
+      circleCtx.lineTo(350, centerY);
       circleCtx.moveTo(centerX, 0);
-      circleCtx.lineTo(centerX, 400);
+      circleCtx.lineTo(centerX, 350);
       circleCtx.stroke();
 
       // Label axes with degree markers
