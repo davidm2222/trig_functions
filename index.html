@@ -5,50 +5,419 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trig Visualizer Enhanced</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: sans-serif;
-      margin: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
     }
-    canvas {
-      border: 1px solid #ccc;
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      margin: 0 0 30px 0;
+      color: #2d3748;
+      font-size: 2em;
+      font-weight: 600;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .controls-section {
+      background: #f7fafc;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .slider-control {
+      margin-bottom: 20px;
+    }
+
+    .slider-control label {
       display: block;
-      margin-top: 20px;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 8px;
+      font-size: 0.95em;
     }
-    .controls {
+
+    #theta {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      outline: none;
+      -webkit-appearance: none;
+      background: #e2e8f0;
+    }
+
+    #theta::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #theta::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: #5568d3;
+    }
+
+    #theta::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    #thetaValue {
+      display: inline-block;
+      font-weight: 700;
+      color: #667eea;
+      font-size: 1.3em;
+      margin-left: 10px;
+    }
+
+    .preset-angles {
+      margin: 20px 0;
+    }
+
+    .preset-angles h3 {
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #4a5568;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .angle-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .angle-buttons button {
+      padding: 10px;
+      border: 2px solid #e2e8f0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #2d3748;
+      transition: all 0.2s;
+      font-size: 0.9em;
+    }
+
+    .angle-buttons button:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .checkboxes {
+      margin: 20px 0;
+    }
+
+    .checkboxes h3 {
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #4a5568;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .checkboxes label {
+      display: block;
+      padding: 10px;
+      margin-bottom: 6px;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid #e2e8f0;
+      font-weight: 500;
+    }
+
+    .checkboxes label:hover {
+      border-color: #cbd5e0;
+      background: #f7fafc;
+    }
+
+    .checkboxes input[type="checkbox"] {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .animation-controls {
+      margin: 20px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .animation-controls h3 {
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #4a5568;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #playPause {
+      width: 100%;
+      padding: 12px;
+      background: #48bb78;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1em;
       margin-bottom: 10px;
     }
-    .checkboxes, .buttons {
+
+    #playPause:hover {
+      background: #38a169;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+    }
+
+    #playPause.playing {
+      background: #f56565;
+    }
+
+    #playPause.playing:hover {
+      background: #e53e3e;
+    }
+
+    .speed-control {
       margin-top: 10px;
     }
-    .unit-circle {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
+
+    .speed-control label {
+      display: block;
+      font-size: 0.85em;
+      color: #4a5568;
+      margin-bottom: 5px;
+      font-weight: 500;
     }
+
+    .speed-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .speed-buttons button {
+      padding: 8px;
+      border: 2px solid #e2e8f0;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .speed-buttons button.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .speed-buttons button:hover {
+      border-color: #667eea;
+    }
+
+    .ratio-display {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+      margin-top: 20px;
+    }
+
+    .ratio-display h3 {
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #4a5568;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ratio-item {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      padding: 8px;
+      margin: 6px 0;
+      background: #f7fafc;
+      border-radius: 6px;
+      border-left: 4px solid;
+    }
+
+    .ratio-item.sin { border-left-color: #e53e3e; }
+    .ratio-item.cos { border-left-color: #3182ce; }
+    .ratio-item.tan { border-left-color: #38a169; }
+
+    .canvas-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 2px solid #e2e8f0;
+    }
+
+    canvas {
+      display: block;
+      margin: 0 auto;
+    }
+
+    #plot {
+      border-radius: 8px;
+    }
+
+    .circle-section {
+      margin-top: 20px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 20px;
+      margin-top: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9em;
+      font-weight: 500;
+    }
+
+    .legend-color {
+      width: 24px;
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    .legend-color.sin { background: #e53e3e; }
+    .legend-color.cos { background: #3182ce; }
+    .legend-color.tan { background: #38a169; }
   </style>
 </head>
 <body>
-  <h1>Trig Function Visualizer</h1>
-  <div class="controls">
-    <label for="theta">Theta (degrees): </label>
-    <input type="range" id="theta" min="0" max="360" value="45">
-    <span id="thetaValue">45</span>
+  <div class="container">
+    <h1>Trig Function Visualizer</h1>
 
-    <div class="buttons">
-      <button onclick="setTheta(45)">45°</button>
-      <button onclick="setTheta(90)">90°</button>
-      <button onclick="setTheta(180)">180°</button>
-    </div>
+    <div class="main-layout">
+      <div class="canvas-container">
+        <canvas id="plot" width="900" height="450"></canvas>
+        <div class="legend">
+          <div class="legend-item" id="legendSin" style="display: none;">
+            <div class="legend-color sin"></div>
+            <span>sin(θ)</span>
+          </div>
+          <div class="legend-item" id="legendCos" style="display: none;">
+            <div class="legend-color cos"></div>
+            <span>cos(θ)</span>
+          </div>
+          <div class="legend-item" id="legendTan" style="display: none;">
+            <div class="legend-color tan"></div>
+            <span>tan(θ)</span>
+          </div>
+        </div>
 
-    <div class="checkboxes">
-      <label><input type="checkbox" id="showSin" checked> sin(θ)</label>
-      <label><input type="checkbox" id="showCos" checked> cos(θ)</label>
-      <label><input type="checkbox" id="showTan" checked> tan(θ)</label>
+        <div class="circle-section">
+          <canvas id="circle" width="400" height="400"></canvas>
+        </div>
+      </div>
+
+      <div class="controls-section">
+        <div class="slider-control">
+          <label for="theta">Angle: <span id="thetaValue">45</span>°</label>
+          <input type="range" id="theta" min="0" max="360" value="45">
+        </div>
+
+        <div class="preset-angles">
+          <h3>Special Angles</h3>
+          <div class="angle-buttons">
+            <button onclick="setTheta(0)">0°</button>
+            <button onclick="setTheta(30)">30°</button>
+            <button onclick="setTheta(45)">45°</button>
+            <button onclick="setTheta(60)">60°</button>
+            <button onclick="setTheta(90)">90°</button>
+            <button onclick="setTheta(180)">180°</button>
+            <button onclick="setTheta(270)">270°</button>
+            <button onclick="setTheta(360)">360°</button>
+          </div>
+        </div>
+
+        <div class="checkboxes">
+          <h3>Show Functions</h3>
+          <label>
+            <input type="checkbox" id="showSin" checked> sin(θ) - Red
+          </label>
+          <label>
+            <input type="checkbox" id="showCos" checked> cos(θ) - Blue
+          </label>
+          <label>
+            <input type="checkbox" id="showTan" checked> tan(θ) - Green
+          </label>
+        </div>
+
+        <div class="animation-controls">
+          <h3>Animation</h3>
+          <button id="playPause">▶ Play</button>
+          <div class="speed-control">
+            <label>Speed:</label>
+            <div class="speed-buttons">
+              <button onclick="setSpeed(40)" id="speedSlow">Slow</button>
+              <button onclick="setSpeed(20)" id="speedMed" class="active">Medium</button>
+              <button onclick="setSpeed(10)" id="speedFast">Fast</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ratio-display">
+          <h3>Ratio Calculations</h3>
+          <div id="ratioCalculations"></div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <canvas id="plot" width="800" height="400"></canvas>
-  <canvas id="circle" width="200" height="200" class="unit-circle"></canvas>
 
   <script>
     const canvas = document.getElementById("plot");
@@ -61,10 +430,16 @@
     const showSin = document.getElementById("showSin");
     const showCos = document.getElementById("showCos");
     const showTan = document.getElementById("showTan");
+    const playPauseBtn = document.getElementById("playPause");
+    const ratioDisplay = document.getElementById("ratioCalculations");
 
     const width = canvas.width;
     const height = canvas.height;
-    const padding = 40;
+    const padding = 50;
+
+    let isPlaying = false;
+    let animationInterval = null;
+    let animationSpeed = 20; // milliseconds per degree
 
     function setTheta(val) {
       thetaInput.value = val;
@@ -72,60 +447,142 @@
       drawPlot();
     }
 
+    function setSpeed(speed) {
+      animationSpeed = speed;
+      document.querySelectorAll('.speed-buttons button').forEach(btn => btn.classList.remove('active'));
+      if (speed === 40) document.getElementById('speedSlow').classList.add('active');
+      if (speed === 20) document.getElementById('speedMed').classList.add('active');
+      if (speed === 10) document.getElementById('speedFast').classList.add('active');
+
+      if (isPlaying) {
+        stopAnimation();
+        startAnimation();
+      }
+    }
+
+    function toggleAnimation() {
+      if (isPlaying) {
+        stopAnimation();
+      } else {
+        startAnimation();
+      }
+    }
+
+    function startAnimation() {
+      isPlaying = true;
+      playPauseBtn.textContent = '⏸ Pause';
+      playPauseBtn.classList.add('playing');
+
+      animationInterval = setInterval(() => {
+        let currentTheta = parseInt(thetaInput.value);
+        currentTheta = (currentTheta + 1) % 361;
+        setTheta(currentTheta);
+      }, animationSpeed);
+    }
+
+    function stopAnimation() {
+      isPlaying = false;
+      playPauseBtn.textContent = '▶ Play';
+      playPauseBtn.classList.remove('playing');
+      if (animationInterval) {
+        clearInterval(animationInterval);
+        animationInterval = null;
+      }
+    }
+
+    playPauseBtn.addEventListener('click', toggleAnimation);
+
     function drawPlot() {
       ctx.clearRect(0, 0, width, height);
       drawAxes();
-      if (showSin.checked) drawFunction(Math.sin, "red");
-      if (showCos.checked) drawFunction(Math.cos, "blue");
-      if (showTan.checked) drawFunction(Math.tan, "green", true);
+      drawGridLines();
+
+      if (showTan.checked) drawFunction(Math.tan, "#38a169", true);
+      if (showCos.checked) drawFunction(Math.cos, "#3182ce");
+      if (showSin.checked) drawFunction(Math.sin, "#e53e3e");
+
       drawThetaLine();
+      drawCurrentPoints();
       drawUnitCircle();
+      updateRatios();
+      updateLegend();
     }
 
     function drawAxes() {
-      ctx.strokeStyle = "black";
+      ctx.strokeStyle = "#2d3748";
+      ctx.lineWidth = 2;
+
+      // X-axis
       ctx.beginPath();
       ctx.moveTo(padding, height / 2);
       ctx.lineTo(width - padding, height / 2);
       ctx.stroke();
 
+      // Y-axis
       ctx.beginPath();
-      ctx.moveTo(padding, 0);
-      ctx.lineTo(padding, height);
+      ctx.moveTo(padding, padding);
+      ctx.lineTo(padding, height - padding);
       ctx.stroke();
 
+      ctx.fillStyle = "#2d3748";
+      ctx.font = "12px sans-serif";
+
+      // Y-axis labels
       for (let i = -1; i <= 1; i += 0.5) {
-        const y = height / 2 - i * 100;
+        if (i === 0) continue;
+        const y = height / 2 - i * 150;
         ctx.beginPath();
         ctx.moveTo(padding - 5, y);
         ctx.lineTo(padding + 5, y);
         ctx.stroke();
-        ctx.fillText(i.toFixed(1), padding - 30, y + 3);
+        ctx.fillText(i.toFixed(1), padding - 35, y + 4);
       }
 
+      // X-axis labels
       for (let deg = 0; deg <= 360; deg += 90) {
         const x = padding + (deg / 360) * (width - 2 * padding);
         ctx.beginPath();
         ctx.moveTo(x, height / 2 - 5);
         ctx.lineTo(x, height / 2 + 5);
         ctx.stroke();
-        ctx.fillText(deg + "°", x - 10, height / 2 + 20);
+        ctx.fillText(deg + "°", x - 10, height / 2 + 25);
+      }
+    }
+
+    function drawGridLines() {
+      ctx.strokeStyle = "#e2e8f0";
+      ctx.lineWidth = 1;
+
+      // Vertical grid lines at key angles
+      for (let deg = 90; deg <= 270; deg += 90) {
+        const x = padding + (deg / 360) * (width - 2 * padding);
+        ctx.beginPath();
+        ctx.setLineDash([5, 5]);
+        ctx.moveTo(x, padding);
+        ctx.lineTo(x, height - padding);
+        ctx.stroke();
+        ctx.setLineDash([]);
       }
     }
 
     function drawFunction(fn, color, isTan = false) {
       ctx.strokeStyle = color;
+      ctx.lineWidth = 2.5;
       ctx.beginPath();
       let started = false;
+
       for (let deg = 0; deg <= 360; deg++) {
         const rad = (deg * Math.PI) / 180;
         let y = fn(rad);
-        if (isTan && Math.abs(y) > 10) {
+
+        if (isTan && Math.abs(y) > 3) {
           started = false;
           continue;
         }
+
         const x = padding + (deg / 360) * (width - 2 * padding);
-        y = height / 2 - y * 100;
+        y = height / 2 - y * 150;
+
         if (!started) {
           ctx.moveTo(x, y);
           started = true;
@@ -138,46 +595,81 @@
 
     function drawThetaLine() {
       const theta = parseInt(thetaInput.value);
+      const x = padding + (theta / 360) * (width - 2 * padding);
+
+      ctx.strokeStyle = "#805ad5";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(x, padding);
+      ctx.lineTo(x, height - padding);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawCurrentPoints() {
+      const theta = parseInt(thetaInput.value);
       const rad = (theta * Math.PI) / 180;
       const x = padding + (theta / 360) * (width - 2 * padding);
 
-      ctx.strokeStyle = "purple";
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
-      ctx.stroke();
-
-      ctx.fillStyle = "black";
-      ctx.font = "12px sans-serif";
-
       if (showSin.checked) {
-        const ySin = height / 2 - Math.sin(rad) * 100;
-        ctx.fillText("sin: " + Math.sin(rad).toFixed(2), x + 5, ySin);
+        const ySin = height / 2 - Math.sin(rad) * 150;
+        ctx.fillStyle = "#e53e3e";
+        ctx.beginPath();
+        ctx.arc(x, ySin, 6, 0, 2 * Math.PI);
+        ctx.fill();
       }
 
       if (showCos.checked) {
-        const yCos = height / 2 - Math.cos(rad) * 100;
-        ctx.fillText("cos: " + Math.cos(rad).toFixed(2), x + 5, yCos);
+        const yCos = height / 2 - Math.cos(rad) * 150;
+        ctx.fillStyle = "#3182ce";
+        ctx.beginPath();
+        ctx.arc(x, yCos, 6, 0, 2 * Math.PI);
+        ctx.fill();
       }
 
       if (showTan.checked) {
         const tanVal = Math.tan(rad);
-        if (Math.abs(tanVal) < 10) {
-          const yTan = height / 2 - tanVal * 100;
-          ctx.fillText("tan: " + tanVal.toFixed(2), x + 5, yTan);
+        if (Math.abs(tanVal) < 3) {
+          const yTan = height / 2 - tanVal * 150;
+          ctx.fillStyle = "#38a169";
+          ctx.beginPath();
+          ctx.arc(x, yTan, 6, 0, 2 * Math.PI);
+          ctx.fill();
         }
       }
     }
 
     function drawUnitCircle() {
-      const centerX = 100;
-      const centerY = 100;
-      const radius = 80;
+      const centerX = 200;
+      const centerY = 200;
+      const radius = 150;
       const theta = parseInt(thetaInput.value);
       const rad = (theta * Math.PI) / 180;
 
-      circleCtx.clearRect(0, 0, 200, 200);
+      circleCtx.clearRect(0, 0, 400, 400);
 
+      // Draw axes
+      circleCtx.strokeStyle = "#cbd5e0";
+      circleCtx.lineWidth = 1.5;
+      circleCtx.beginPath();
+      circleCtx.moveTo(0, centerY);
+      circleCtx.lineTo(400, centerY);
+      circleCtx.moveTo(centerX, 0);
+      circleCtx.lineTo(centerX, 400);
+      circleCtx.stroke();
+
+      // Label axes with degree markers
+      circleCtx.fillStyle = "#4a5568";
+      circleCtx.font = "14px sans-serif";
+      circleCtx.fillText("0°", centerX + radius + 10, centerY + 5);
+      circleCtx.fillText("90°", centerX - 15, centerY - radius - 10);
+      circleCtx.fillText("180°", centerX - radius - 35, centerY + 5);
+      circleCtx.fillText("270°", centerX - 15, centerY + radius + 20);
+
+      // Draw circle
+      circleCtx.strokeStyle = "#2d3748";
+      circleCtx.lineWidth = 2;
       circleCtx.beginPath();
       circleCtx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
       circleCtx.stroke();
@@ -185,29 +677,106 @@
       const x = centerX + radius * Math.cos(rad);
       const y = centerY - radius * Math.sin(rad);
 
+      // Draw angle arc
+      circleCtx.strokeStyle = "#805ad5";
+      circleCtx.lineWidth = 2;
+      circleCtx.beginPath();
+      circleCtx.arc(centerX, centerY, 30, 0, -rad, true);
+      circleCtx.stroke();
+
+      // Draw radius (hypotenuse)
+      circleCtx.strokeStyle = "#805ad5";
+      circleCtx.lineWidth = 3;
       circleCtx.beginPath();
       circleCtx.moveTo(centerX, centerY);
       circleCtx.lineTo(x, y);
-      circleCtx.strokeStyle = "purple";
       circleCtx.stroke();
 
+      // Draw cos (adjacent) - horizontal line
+      if (showCos.checked) {
+        circleCtx.strokeStyle = "#3182ce";
+        circleCtx.lineWidth = 4;
+        circleCtx.beginPath();
+        circleCtx.moveTo(centerX, centerY);
+        circleCtx.lineTo(x, centerY);
+        circleCtx.stroke();
+
+        // Label
+        circleCtx.fillStyle = "#3182ce";
+        circleCtx.font = "bold 13px sans-serif";
+        const cosLabelX = centerX + (x - centerX) / 2;
+        circleCtx.fillText("adjacent (cos)", cosLabelX - 40, centerY + (y > centerY ? -10 : 20));
+      }
+
+      // Draw sin (opposite) - vertical line
+      if (showSin.checked) {
+        circleCtx.strokeStyle = "#e53e3e";
+        circleCtx.lineWidth = 4;
+        circleCtx.beginPath();
+        circleCtx.moveTo(x, centerY);
+        circleCtx.lineTo(x, y);
+        circleCtx.stroke();
+
+        // Label
+        circleCtx.fillStyle = "#e53e3e";
+        circleCtx.font = "bold 13px sans-serif";
+        const sinLabelY = centerY + (y - centerY) / 2;
+        circleCtx.fillText("opposite (sin)", x + 10, sinLabelY);
+      }
+
+      // Label radius
+      circleCtx.fillStyle = "#805ad5";
+      circleCtx.font = "bold 13px sans-serif";
+      const radiusLabelX = centerX + (x - centerX) / 2 - 20;
+      const radiusLabelY = centerY + (y - centerY) / 2 + 20;
+      circleCtx.fillText("radius = 1", radiusLabelX, radiusLabelY);
+
+      // Draw point on circle
+      circleCtx.fillStyle = "#805ad5";
       circleCtx.beginPath();
-      circleCtx.moveTo(centerX, centerY);
-      circleCtx.lineTo(x, centerY);
-      circleCtx.strokeStyle = "blue";
-      circleCtx.stroke();
+      circleCtx.arc(x, y, 6, 0, 2 * Math.PI);
+      circleCtx.fill();
 
-      circleCtx.beginPath();
-      circleCtx.moveTo(x, centerY);
-      circleCtx.lineTo(x, y);
-      circleCtx.strokeStyle = "red";
-      circleCtx.stroke();
+      // Display coordinates
+      circleCtx.fillStyle = "#2d3748";
+      circleCtx.font = "14px sans-serif";
+      const cosVal = Math.cos(rad).toFixed(3);
+      const sinVal = Math.sin(rad).toFixed(3);
+      circleCtx.fillText(`(${cosVal}, ${sinVal})`, x + 10, y - 10);
+    }
 
-      circleCtx.fillStyle = "black";
-      circleCtx.font = "12px sans-serif";
-      const cosVal = Math.cos(rad).toFixed(2);
-      const sinVal = Math.sin(rad).toFixed(2);
-      circleCtx.fillText(`(${cosVal}, ${sinVal})`, x + 5, y - 5);
+    function updateRatios() {
+      const theta = parseInt(thetaInput.value);
+      const rad = (theta * Math.PI) / 180;
+      const sinVal = Math.sin(rad);
+      const cosVal = Math.cos(rad);
+      const tanVal = Math.tan(rad);
+
+      let html = '';
+
+      if (showSin.checked) {
+        html += `<div class="ratio-item sin">sin(${theta}°) = opposite/radius = ${sinVal.toFixed(3)}/1.000 = ${sinVal.toFixed(3)}</div>`;
+      }
+
+      if (showCos.checked) {
+        html += `<div class="ratio-item cos">cos(${theta}°) = adjacent/radius = ${cosVal.toFixed(3)}/1.000 = ${cosVal.toFixed(3)}</div>`;
+      }
+
+      if (showTan.checked) {
+        if (Math.abs(tanVal) < 100) {
+          html += `<div class="ratio-item tan">tan(${theta}°) = opposite/adjacent = ${sinVal.toFixed(3)}/${cosVal.toFixed(3)} = ${tanVal.toFixed(3)}</div>`;
+        } else {
+          html += `<div class="ratio-item tan">tan(${theta}°) = undefined (adjacent = 0)</div>`;
+        }
+      }
+
+      ratioDisplay.innerHTML = html || '<div style="color: #a0aec0; font-style: italic;">Select functions to see ratios</div>';
+    }
+
+    function updateLegend() {
+      document.getElementById('legendSin').style.display = showSin.checked ? 'flex' : 'none';
+      document.getElementById('legendCos').style.display = showCos.checked ? 'flex' : 'none';
+      document.getElementById('legendTan').style.display = showTan.checked ? 'flex' : 'none';
     }
 
     thetaInput.addEventListener("input", () => {
