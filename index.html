@@ -12,309 +12,382 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       margin: 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 30px;
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
       min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .container {
-      max-width: 1150px;
+      max-width: 1200px;
       margin: 0 auto;
-      background: white;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4),
+                  inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
-      margin: 0 0 30px 0;
-      color: #2d3748;
-      font-size: 2em;
-      font-weight: 600;
+      margin: 0 0 35px 0;
+      color: #ffffff;
+      font-size: 2.5em;
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(135deg, #667eea 0%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
     }
 
     .main-layout {
       display: grid;
-      grid-template-columns: 1fr 350px;
-      gap: 30px;
+      grid-template-columns: 1fr 380px;
+      gap: 35px;
       margin-bottom: 20px;
     }
 
     .controls-section {
-      background: #f7fafc;
-      padding: 20px;
-      border-radius: 12px;
-      border: 2px solid #e2e8f0;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     }
 
     .slider-control {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .slider-control label {
       display: block;
       font-weight: 600;
-      color: #2d3748;
-      margin-bottom: 8px;
-      font-size: 0.95em;
+      color: #e0e7ff;
+      margin-bottom: 12px;
+      font-size: 1em;
     }
 
     #theta {
       width: 100%;
-      height: 8px;
-      border-radius: 4px;
+      height: 10px;
+      border-radius: 5px;
       outline: none;
       -webkit-appearance: none;
-      background: #e2e8f0;
+      background: rgba(255, 255, 255, 0.1);
+      position: relative;
     }
 
     #theta::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      background: #667eea;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.6),
+                  0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
     #theta::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-      background: #5568d3;
+      transform: scale(1.3);
+      box-shadow: 0 0 30px rgba(102, 126, 234, 0.9),
+                  0 6px 12px rgba(0, 0, 0, 0.4);
     }
 
     #theta::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      background: #667eea;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       cursor: pointer;
       border: none;
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.6),
+                  0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
     #thetaValue {
       display: inline-block;
       font-weight: 700;
       color: #667eea;
-      font-size: 1.3em;
+      font-size: 1.5em;
       margin-left: 10px;
+      text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
     }
 
     .preset-angles {
-      margin: 20px 0;
+      margin: 25px 0;
     }
 
     .preset-angles h3 {
-      font-size: 0.9em;
-      font-weight: 600;
-      color: #4a5568;
-      margin: 0 0 10px 0;
+      font-size: 0.85em;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 0 0 12px 0;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.5px;
     }
 
     .angle-buttons {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
 
     .angle-buttons button {
-      padding: 10px;
-      border: 2px solid #e2e8f0;
-      background: white;
-      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
-      color: #2d3748;
-      transition: all 0.2s;
-      font-size: 0.9em;
+      color: #e0e7ff;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.95em;
+      backdrop-filter: blur(5px);
     }
 
     .angle-buttons button:hover {
-      background: #667eea;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      border-color: #667eea;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      border-color: rgba(102, 126, 234, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4),
+                  0 0 20px rgba(102, 126, 234, 0.3);
     }
 
     .checkboxes {
-      margin: 20px 0;
+      margin: 25px 0;
     }
 
     .checkboxes h3 {
-      font-size: 0.9em;
-      font-weight: 600;
-      color: #4a5568;
-      margin: 0 0 10px 0;
+      font-size: 0.85em;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 0 0 12px 0;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.5px;
     }
 
     .checkboxes label {
       display: block;
-      padding: 10px;
-      margin-bottom: 6px;
-      background: white;
-      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s;
-      border: 2px solid #e2e8f0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       font-weight: 500;
+      color: #e0e7ff;
+      backdrop-filter: blur(5px);
     }
 
     .checkboxes label:hover {
-      border-color: #cbd5e0;
-      background: #f7fafc;
+      border-color: rgba(102, 126, 234, 0.5);
+      background: rgba(102, 126, 234, 0.15);
+      transform: translateX(3px);
     }
 
     .checkboxes input[type="checkbox"] {
-      margin-right: 8px;
+      margin-right: 10px;
       cursor: pointer;
+      accent-color: #667eea;
     }
 
     .animation-controls {
-      margin: 20px 0;
-      padding: 15px;
-      background: white;
-      border-radius: 8px;
-      border: 2px solid #e2e8f0;
+      margin: 25px 0;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
     }
 
     .animation-controls h3 {
-      font-size: 0.9em;
-      font-weight: 600;
-      color: #4a5568;
-      margin: 0 0 10px 0;
+      font-size: 0.85em;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 0 0 12px 0;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.5px;
     }
 
     #playPause {
       width: 100%;
-      padding: 12px;
-      background: #48bb78;
+      padding: 14px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
-      font-size: 1em;
-      margin-bottom: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1.05em;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
     }
 
     #playPause:hover {
-      background: #38a169;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6),
+                  0 0 30px rgba(16, 185, 129, 0.3);
     }
 
     #playPause.playing {
-      background: #f56565;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
     }
 
     #playPause.playing:hover {
-      background: #e53e3e;
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6),
+                  0 0 30px rgba(239, 68, 68, 0.3);
     }
 
     .speed-control {
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .speed-control label {
       display: block;
       font-size: 0.85em;
-      color: #4a5568;
-      margin-bottom: 5px;
-      font-weight: 500;
+      color: #a5b4fc;
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .speed-buttons {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 8px;
     }
 
     .speed-buttons button {
-      padding: 8px;
-      border: 2px solid #e2e8f0;
-      background: white;
-      border-radius: 6px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
       cursor: pointer;
       font-size: 0.85em;
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-weight: 500;
+      color: #cbd5e1;
+      backdrop-filter: blur(5px);
     }
 
     .speed-buttons button.active {
-      background: #667eea;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      border-color: #667eea;
+      border-color: rgba(102, 126, 234, 0.5);
+      box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
     }
 
     .speed-buttons button:hover {
-      border-color: #667eea;
+      border-color: rgba(102, 126, 234, 0.5);
+      background: rgba(102, 126, 234, 0.2);
     }
 
     .ratio-display {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      border: 2px solid #e2e8f0;
-      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 25px;
+      backdrop-filter: blur(5px);
     }
 
     .ratio-display h3 {
-      font-size: 0.9em;
-      font-weight: 600;
-      color: #4a5568;
-      margin: 0 0 10px 0;
+      font-size: 0.85em;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 0 0 12px 0;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.5px;
     }
 
     .ratio-item {
       font-family: 'Courier New', monospace;
       font-size: 0.85em;
-      padding: 8px;
-      margin: 6px 0;
-      background: #f7fafc;
-      border-radius: 6px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
       border-left: 4px solid;
+      color: #e0e7ff;
+      backdrop-filter: blur(5px);
     }
 
-    .ratio-item.sin { border-left-color: #e53e3e; }
-    .ratio-item.cos { border-left-color: #3182ce; }
-    .ratio-item.tan { border-left-color: #38a169; }
+    .ratio-item.sin {
+      border-left-color: #ff6b9d;
+      box-shadow: 0 0 15px rgba(255, 107, 157, 0.2);
+    }
+    .ratio-item.cos {
+      border-left-color: #4f9dff;
+      box-shadow: 0 0 15px rgba(79, 157, 255, 0.2);
+    }
+    .ratio-item.tan {
+      border-left-color: #10b981;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    }
 
     .canvas-container {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      border: 2px solid #e2e8f0;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     }
 
     canvas {
       display: block;
       margin: 0 auto;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.6);
     }
 
     #plot {
-      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
+                  inset 0 0 60px rgba(0, 0, 0, 0.2);
     }
 
     .circle-section {
-      margin-top: 20px;
+      margin-top: 25px;
+    }
+
+    #circle {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
+                  inset 0 0 60px rgba(0, 0, 0, 0.2);
     }
 
     .legend {
       display: flex;
-      gap: 20px;
-      margin-top: 15px;
+      gap: 25px;
+      margin-top: 20px;
       justify-content: center;
       flex-wrap: wrap;
     }
@@ -322,20 +395,55 @@
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.9em;
-      font-weight: 500;
+      gap: 10px;
+      font-size: 0.95em;
+      font-weight: 600;
+      color: #e0e7ff;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .legend-color {
-      width: 24px;
-      height: 4px;
-      border-radius: 2px;
+      width: 28px;
+      height: 5px;
+      border-radius: 3px;
+      box-shadow: 0 0 10px currentColor;
     }
 
-    .legend-color.sin { background: #e53e3e; }
-    .legend-color.cos { background: #3182ce; }
-    .legend-color.tan { background: #38a169; }
+    .legend-color.sin {
+      background: #ff6b9d;
+      box-shadow: 0 0 15px rgba(255, 107, 157, 0.6);
+    }
+    .legend-color.cos {
+      background: #4f9dff;
+      box-shadow: 0 0 15px rgba(79, 157, 255, 0.6);
+    }
+    .legend-color.tan {
+      background: #10b981;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+    }
+
+    /* Custom scrollbar for webkit browsers */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(102, 126, 234, 0.5);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(102, 126, 234, 0.7);
+    }
   </style>
 </head>
 <body>
@@ -497,9 +605,9 @@
       drawAxes();
       drawGridLines();
 
-      if (showTan.checked) drawFunction(Math.tan, "#38a169", true);
-      if (showCos.checked) drawFunction(Math.cos, "#3182ce");
-      if (showSin.checked) drawFunction(Math.sin, "#e53e3e");
+      if (showTan.checked) drawFunction(Math.tan, "#10b981", true);
+      if (showCos.checked) drawFunction(Math.cos, "#4f9dff");
+      if (showSin.checked) drawFunction(Math.sin, "#ff6b9d");
 
       drawThetaLine();
       drawCurrentPoints();
@@ -509,8 +617,9 @@
     }
 
     function drawAxes() {
-      ctx.strokeStyle = "#2d3748";
+      ctx.strokeStyle = "#94a3b8";
       ctx.lineWidth = 2;
+      ctx.shadowBlur = 0;
 
       // X-axis
       ctx.beginPath();
@@ -524,8 +633,8 @@
       ctx.lineTo(padding, height - padding);
       ctx.stroke();
 
-      ctx.fillStyle = "#2d3748";
-      ctx.font = "12px sans-serif";
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "bold 13px sans-serif";
 
       // Y-axis labels
       for (let i = -1; i <= 1; i += 0.5) {
@@ -550,8 +659,9 @@
     }
 
     function drawGridLines() {
-      ctx.strokeStyle = "#e2e8f0";
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.2)";
       ctx.lineWidth = 1;
+      ctx.shadowBlur = 0;
 
       // Vertical grid lines at key angles
       for (let deg = 90; deg <= 270; deg += 90) {
@@ -567,7 +677,12 @@
 
     function drawFunction(fn, color, isTan = false) {
       ctx.strokeStyle = color;
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 3;
+
+      // Add glow effect
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = color;
+
       ctx.beginPath();
       let started = false;
 
@@ -591,20 +706,26 @@
         }
       }
       ctx.stroke();
+
+      // Reset shadow
+      ctx.shadowBlur = 0;
     }
 
     function drawThetaLine() {
       const theta = parseInt(thetaInput.value);
       const x = padding + (theta / 360) * (width - 2 * padding);
 
-      ctx.strokeStyle = "#805ad5";
+      ctx.strokeStyle = "#a78bfa";
       ctx.lineWidth = 2;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = "#a78bfa";
       ctx.setLineDash([5, 5]);
       ctx.beginPath();
       ctx.moveTo(x, padding);
       ctx.lineTo(x, height - padding);
       ctx.stroke();
       ctx.setLineDash([]);
+      ctx.shadowBlur = 0;
     }
 
     function drawCurrentPoints() {
@@ -614,17 +735,21 @@
 
       if (showSin.checked) {
         const ySin = height / 2 - Math.sin(rad) * 100;
-        ctx.fillStyle = "#e53e3e";
+        ctx.fillStyle = "#ff6b9d";
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#ff6b9d";
         ctx.beginPath();
-        ctx.arc(x, ySin, 6, 0, 2 * Math.PI);
+        ctx.arc(x, ySin, 7, 0, 2 * Math.PI);
         ctx.fill();
       }
 
       if (showCos.checked) {
         const yCos = height / 2 - Math.cos(rad) * 100;
-        ctx.fillStyle = "#3182ce";
+        ctx.fillStyle = "#4f9dff";
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#4f9dff";
         ctx.beginPath();
-        ctx.arc(x, yCos, 6, 0, 2 * Math.PI);
+        ctx.arc(x, yCos, 7, 0, 2 * Math.PI);
         ctx.fill();
       }
 
@@ -632,12 +757,16 @@
         const tanVal = Math.tan(rad);
         if (Math.abs(tanVal) < 3) {
           const yTan = height / 2 - tanVal * 100;
-          ctx.fillStyle = "#38a169";
+          ctx.fillStyle = "#10b981";
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = "#10b981";
           ctx.beginPath();
-          ctx.arc(x, yTan, 6, 0, 2 * Math.PI);
+          ctx.arc(x, yTan, 7, 0, 2 * Math.PI);
           ctx.fill();
         }
       }
+
+      ctx.shadowBlur = 0;
     }
 
     function drawUnitCircle() {
@@ -650,8 +779,9 @@
       circleCtx.clearRect(0, 0, 350, 350);
 
       // Draw axes
-      circleCtx.strokeStyle = "#cbd5e0";
+      circleCtx.strokeStyle = "rgba(148, 163, 184, 0.4)";
       circleCtx.lineWidth = 1.5;
+      circleCtx.shadowBlur = 0;
       circleCtx.beginPath();
       circleCtx.moveTo(0, centerY);
       circleCtx.lineTo(350, centerY);
@@ -660,86 +790,113 @@
       circleCtx.stroke();
 
       // Label axes with degree markers
-      circleCtx.fillStyle = "#4a5568";
-      circleCtx.font = "14px sans-serif";
+      circleCtx.fillStyle = "#94a3b8";
+      circleCtx.font = "bold 14px sans-serif";
       circleCtx.fillText("0°", centerX + radius + 10, centerY + 5);
       circleCtx.fillText("90°", centerX - 15, centerY - radius - 10);
       circleCtx.fillText("180°", centerX - radius - 35, centerY + 5);
       circleCtx.fillText("270°", centerX - 15, centerY + radius + 20);
 
-      // Draw circle
-      circleCtx.strokeStyle = "#2d3748";
+      // Draw circle with glow
+      circleCtx.strokeStyle = "#94a3b8";
       circleCtx.lineWidth = 2;
+      circleCtx.shadowBlur = 10;
+      circleCtx.shadowColor = "#667eea";
       circleCtx.beginPath();
       circleCtx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
       circleCtx.stroke();
+      circleCtx.shadowBlur = 0;
 
       const x = centerX + radius * Math.cos(rad);
       const y = centerY - radius * Math.sin(rad);
 
       // Draw angle arc
-      circleCtx.strokeStyle = "#805ad5";
+      circleCtx.strokeStyle = "#a78bfa";
       circleCtx.lineWidth = 2;
+      circleCtx.shadowBlur = 10;
+      circleCtx.shadowColor = "#a78bfa";
       circleCtx.beginPath();
       circleCtx.arc(centerX, centerY, 30, 0, -rad, true);
       circleCtx.stroke();
+      circleCtx.shadowBlur = 0;
 
       // Draw radius (hypotenuse)
-      circleCtx.strokeStyle = "#805ad5";
+      circleCtx.strokeStyle = "#a78bfa";
       circleCtx.lineWidth = 3;
+      circleCtx.shadowBlur = 12;
+      circleCtx.shadowColor = "#a78bfa";
       circleCtx.beginPath();
       circleCtx.moveTo(centerX, centerY);
       circleCtx.lineTo(x, y);
       circleCtx.stroke();
+      circleCtx.shadowBlur = 0;
 
       // Draw cos (adjacent) - horizontal line
       if (showCos.checked) {
-        circleCtx.strokeStyle = "#3182ce";
-        circleCtx.lineWidth = 4;
+        circleCtx.strokeStyle = "#4f9dff";
+        circleCtx.lineWidth = 5;
+        circleCtx.shadowBlur = 15;
+        circleCtx.shadowColor = "#4f9dff";
         circleCtx.beginPath();
         circleCtx.moveTo(centerX, centerY);
         circleCtx.lineTo(x, centerY);
         circleCtx.stroke();
+        circleCtx.shadowBlur = 0;
 
         // Label
-        circleCtx.fillStyle = "#3182ce";
+        circleCtx.fillStyle = "#4f9dff";
         circleCtx.font = "bold 13px sans-serif";
+        circleCtx.shadowBlur = 5;
+        circleCtx.shadowColor = "#4f9dff";
         const cosLabelX = centerX + (x - centerX) / 2;
         circleCtx.fillText("adjacent (cos)", cosLabelX - 40, centerY + (y > centerY ? -10 : 20));
+        circleCtx.shadowBlur = 0;
       }
 
       // Draw sin (opposite) - vertical line
       if (showSin.checked) {
-        circleCtx.strokeStyle = "#e53e3e";
-        circleCtx.lineWidth = 4;
+        circleCtx.strokeStyle = "#ff6b9d";
+        circleCtx.lineWidth = 5;
+        circleCtx.shadowBlur = 15;
+        circleCtx.shadowColor = "#ff6b9d";
         circleCtx.beginPath();
         circleCtx.moveTo(x, centerY);
         circleCtx.lineTo(x, y);
         circleCtx.stroke();
+        circleCtx.shadowBlur = 0;
 
         // Label
-        circleCtx.fillStyle = "#e53e3e";
+        circleCtx.fillStyle = "#ff6b9d";
         circleCtx.font = "bold 13px sans-serif";
+        circleCtx.shadowBlur = 5;
+        circleCtx.shadowColor = "#ff6b9d";
         const sinLabelY = centerY + (y - centerY) / 2;
         circleCtx.fillText("opposite (sin)", x + 10, sinLabelY);
+        circleCtx.shadowBlur = 0;
       }
 
       // Label radius
-      circleCtx.fillStyle = "#805ad5";
+      circleCtx.fillStyle = "#c4b5fd";
       circleCtx.font = "bold 13px sans-serif";
+      circleCtx.shadowBlur = 5;
+      circleCtx.shadowColor = "#a78bfa";
       const radiusLabelX = centerX + (x - centerX) / 2 - 20;
       const radiusLabelY = centerY + (y - centerY) / 2 + 20;
       circleCtx.fillText("radius = 1", radiusLabelX, radiusLabelY);
+      circleCtx.shadowBlur = 0;
 
       // Draw point on circle
-      circleCtx.fillStyle = "#805ad5";
+      circleCtx.fillStyle = "#c4b5fd";
+      circleCtx.shadowBlur = 15;
+      circleCtx.shadowColor = "#a78bfa";
       circleCtx.beginPath();
-      circleCtx.arc(x, y, 6, 0, 2 * Math.PI);
+      circleCtx.arc(x, y, 7, 0, 2 * Math.PI);
       circleCtx.fill();
+      circleCtx.shadowBlur = 0;
 
       // Display coordinates
-      circleCtx.fillStyle = "#2d3748";
-      circleCtx.font = "14px sans-serif";
+      circleCtx.fillStyle = "#e0e7ff";
+      circleCtx.font = "bold 14px sans-serif";
       const cosVal = Math.cos(rad).toFixed(3);
       const sinVal = Math.sin(rad).toFixed(3);
       circleCtx.fillText(`(${cosVal}, ${sinVal})`, x + 10, y - 10);
